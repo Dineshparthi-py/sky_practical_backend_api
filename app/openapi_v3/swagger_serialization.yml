@@ -1,0 +1,7 @@
+openapi: 3.0.0
+info:
+  description: This api to fetch crypto currency market summary
+  version: "1.0.0"
+  title: Crypto Currency API
+servers:
+  - url: /api/v1 # local/default server
