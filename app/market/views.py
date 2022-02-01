@@ -1,0 +1,15 @@
+from app.CommonLib import helper
+
+
+def get_all_market_summaries():
+    """
+    retrieve all market summaries without any queries
+    :return:
+    """
+    try:
+        pass
+        # code here
+        # return helper.response_json('success', {"datas": []}, "fetched all market summaries successfully", 500)
+    except Exception as e:
+        details = "All market summaries api unable to read data - Exception occurred" + str(e)
+        return helper.response_json('failed', {}, details, 500)

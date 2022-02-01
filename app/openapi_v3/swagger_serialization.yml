@@ -5,3 +5,133 @@ info:
   title: Crypto Currency API
 servers:
   - url: /api/v1 # local/default server
+paths:
+  /marketsummaries:
+    get:
+      summary: Return all market summaries
+      x-openapi-router-controller: "app.market.views"
+      operationId: "get_all_market_summaries"
+      responses:
+        '200':
+          description: All market summaries response
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryResponse"
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '401':
+          description: Unauthorized Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '403':
+          description: Forbidden Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '404':
+          description: Resource Not Found
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '422':
+          description: Invalid Input Payload
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '500':
+          description: Internal Server Error
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+      security:
+        - jwt: ['secret']
+
+components:
+#  security token
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: app.CommonLib.security_helper.decode_token
+#  success result
+  schemas:
+    marketSummaryResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        result:
+          $ref: "#/components/schemas/marketSummaryResult"
+        detail:
+          type: string
+        status_code:
+          type: integer
+    marketSummaryError:
+      type: object
+      properties:
+        status:
+          type: string
+        result:
+          type: object
+        detail:
+          type: string
+        status_code:
+          type: integer
+    marketSummaryResult:
+      type: object
+      properties:
+        datas:
+          type: array
+          items:
+            type: object
+            properties:
+              MarketName:
+                type: string
+              High:
+                type: number
+                format: float
+              Low:
+                type: number
+                format: float
+              Volume:
+                type: number
+                format: float
+              Last:
+                type: number
+                format: float
+              BaseVolume:
+                type: number
+                format: float
+              TimeStamp:
+                type: string
+              Bid:
+                type: number
+                format: float
+              Ask:
+                type: number
+                format: float
+              OpenBuyOrders:
+                type: integer
+              OpenSellOrders:
+                type: integer
+              PrevDay:
+                type: number
+                format: float
+              Created:
+                type: string
+              DisplayMarketName:
+                type: string
+
+
