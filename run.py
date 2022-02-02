@@ -13,5 +13,4 @@ def create_app(instance_config=None):
 if __name__ == '__main__':
     app = create_app()
     # for development purpose configured single server(localhost) with debug
-    port = 5001
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', debug=True)
