@@ -54,6 +54,8 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/marketSummaryError"
+      security:
+        - jwt: [ 'secret' ]
   /marketsummary:
     get:
       summary: Return market summary
