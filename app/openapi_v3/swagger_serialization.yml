@@ -54,6 +54,60 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/marketSummaryError"
+  /marketsummary:
+    get:
+      summary: Return market summary
+      x-openapi-router-controller: "app.market.views"
+      operationId: "get_market_summary"
+      parameters:
+        - in: query
+          name: market
+          schema:
+            type: string
+          description: Filter data using market
+      responses:
+        '200':
+          description: Market summary response
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryResponse"
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '401':
+          description: Unauthorized Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '403':
+          description: Forbidden Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '404':
+          description: Resource Not Found
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '422':
+          description: Invalid Input Payload
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '500':
+          description: Internal Server Error
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
       security:
         - jwt: ['secret']
 
