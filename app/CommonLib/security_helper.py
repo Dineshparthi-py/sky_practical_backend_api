@@ -20,9 +20,9 @@ def encode_auth_token(uid):
             'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=AUTH_TOKEN_EXPIRY_SECONDS),
             'unique_id': uid}
         encoded_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        return encoded_token
+        return {"status": True, "result": encoded_token}
     except Exception as e:
-        return False
+        return {"status": False}
 
 
 def decode_token(auth_token=None):
@@ -32,8 +32,8 @@ def decode_token(auth_token=None):
     try:
         if auth_token:
             usr_data = jwt.decode(auth_token, SECRET_KEY, algorithms='HS256')
-            return usr_data
+            return {"status": True, "result": usr_data}
         else:
-            return False
+            return {"status": False}
     except Exception as e:
-        return False
+        return {"status": False}

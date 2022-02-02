@@ -6,6 +6,68 @@ info:
 servers:
   - url: /api/v1 # local/default server
 paths:
+  /login:
+    post:
+      tags:
+        - "Login"
+      summary: Verify login and generate auth token(jwt)
+      x-openapi-router-controller: "app.login.views"
+      operationId: "login"
+      requestBody:
+        description: Enter username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Get auth token (jwt)
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Login"
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '401':
+          description: Unauthorized Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '403':
+          description: Forbidden Request
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '404':
+          description: Resource Not Found
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '422':
+          description: Invalid Input Payload
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
+        '500':
+          description: Internal Server Error
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/marketSummaryError"
   /marketsummaries:
     get:
       summary: Return all market summaries
@@ -123,6 +185,20 @@ components:
       x-bearerInfoFunc: app.CommonLib.security_helper.decode_token
 #  success result
   schemas:
+    Login:
+      type: object
+      properties:
+        status:
+          type: string
+        result:
+          type: object
+          properties:
+            auth_token:
+              type: string
+        detail:
+          type: string
+        status_code:
+          type: integer
     marketSummaryResponse:
       type: object
       properties:
