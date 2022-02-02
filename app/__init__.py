@@ -7,5 +7,10 @@
 
 import os
 
+# auth config
 SECRET_KEY = os.getenv('SECRET_KEY', 'sky_api_key')
 AUTH_TOKEN_EXPIRY_SECONDS = 14400
+
+# bittrex api config
+BITTREX_MARKET_SUMMARIES_API = "https://bittrex.github.io/api/v1-1/public/getmarketsummaries"
+BITTREX_MARKET_SUMMARY_API = "https://bittrex.github.io/api/v1-1/public/getmarketsummary"
