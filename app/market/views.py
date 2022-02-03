@@ -1,6 +1,8 @@
 from app.CommonLib import helper
+from app.CommonLib import security_helper as security
 
 
+@security.token_required()
 def get_all_market_summaries():
     """
     retrieve all market summaries without any queries
@@ -15,6 +17,7 @@ def get_all_market_summaries():
         return helper.response_json('failed', {}, details, 500)
 
 
+@security.token_required()
 def get_market_summary(market):
     """
     retrieve market summary with market query
