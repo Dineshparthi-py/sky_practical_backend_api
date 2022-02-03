@@ -126,6 +126,7 @@ paths:
       parameters:
         - in: query
           name: market
+          required: true
           schema:
             type: string
           description: Filter data using market
@@ -224,7 +225,7 @@ components:
     marketSummaryResult:
       type: object
       properties:
-        datas:
+        items:
           type: array
           items:
             type: object

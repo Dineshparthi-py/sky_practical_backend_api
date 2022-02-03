@@ -40,5 +40,5 @@ def login():
 
         return helper.response_json('success', token, "logged in successfully", 200)
     except Exception as e:
-        details = "Login is failure - Exception occurred" + str(e)
+        details = "Login is failure - Exception occurred " + str(e)
         return helper.response_json('failed', {}, details, 500), 500
