@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+    skp_web_api:
+        container_name: ${NAME}
+        build: .
+        command: python -u run.py
+        ports: 
+            - "5000:${PORT}"
+        volumes:
+            - .:/app
+        networks:
+            - local
+
+networks:
+    local:
+        external: true
