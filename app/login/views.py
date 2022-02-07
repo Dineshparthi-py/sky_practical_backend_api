@@ -20,6 +20,14 @@ def login():
             username = body.get('username')
             password = body.get('password')
 
+        if username in (None, ''):
+            details = "Login is failure - Missing username"
+            return helper.response_json('failed', {}, details, 400), 400
+
+        if password in (None, ''):
+            details = "Login is failure - Missing password"
+            return helper.response_json('failed', {}, details, 400), 400
+
         # read json
         json_file = open("app/login/sample_login_credentials.json", 'r')
         json_data = json.load(json_file)
@@ -28,7 +36,7 @@ def login():
 
         # check authenticate
         if not check_login:
-            details = "Password Incorrect"
+            details = "Username/Password Incorrect"
             return helper.response_json('failed', {}, details, 500), 500
 
         # generate token

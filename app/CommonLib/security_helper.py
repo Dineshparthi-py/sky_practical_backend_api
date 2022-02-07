@@ -66,7 +66,7 @@ def token_required():
                 detail = "Token expired, Please sign in again"
                 return helper.response_json('failed', {}, detail, 401), 401
             except jwt.InvalidTokenError:
-                detail = "Invalid token. Please sign in again"
+                detail = "Invalid authorization header"
                 return helper.response_json('failed', {}, detail, 401), 401
             except Exception as e:
                 detail = "Access token error : Exception occurred -" + str(e)

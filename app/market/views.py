@@ -27,6 +27,7 @@ def get_all_market_summaries():
 def get_market_summary(market):
     """
     retrieve market summary with market query
+    :param market:
     :return:
     """
     try:
