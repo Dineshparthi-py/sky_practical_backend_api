@@ -17,6 +17,8 @@ Security
 Testing
 * Pytest
 
+  running cmd: `pytest app\test_cases -v`
+
 Application Run:
 
 * Docker Build
