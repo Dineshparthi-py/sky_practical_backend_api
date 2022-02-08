@@ -183,7 +183,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      x-bearerInfoFunc: app.CommonLib.security_helper.decode_token
+      x-bearerInfoFunc: app.CommonLib.security_helper.TokenOperations.decode_token
 #  success result
   schemas:
     Login:

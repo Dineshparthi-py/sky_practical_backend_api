@@ -1,4 +1,4 @@
-from app.CommonLib.security_helper import decode_token
+from app.CommonLib.security_helper import TokenOperations
 
 import pytest
 import requests
@@ -12,7 +12,7 @@ def test_login_valid(market_url, username, password):
     data = {'username': username, 'password': password}
     resp = requests.post(url, json=data)
     out_result = resp.json()
-    auth_username = decode_token(out_result['result']['auth_token'])['result']['username']
+    auth_username = TokenOperations.decode_token(out_result['result']['auth_token'])['result']['username']
 
     # api response
     assert resp.status_code == 200, resp.text

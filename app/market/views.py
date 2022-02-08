@@ -4,7 +4,7 @@ from app.market.helper import BittrexRequests
 from app import BITTREX_MARKET_SUMMARIES_API, BITTREX_MARKET_SUMMARY_API
 
 
-@security.token_required()
+@security.TokenOperations.token_required
 def get_all_market_summaries():
     """
     retrieve all market summaries without any queries
@@ -23,7 +23,7 @@ def get_all_market_summaries():
         return helper.response_json('failed', {}, details, 500), 500
 
 
-@security.token_required()
+@security.TokenOperations.token_required
 def get_market_summary(market):
     """
     retrieve market summary with market query

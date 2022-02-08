@@ -12,11 +12,11 @@ class BittrexRequests:
         try:
             api_resp = requests.get(self.bittrex_api, params=payload)
             if api_resp.status_code != 200:
-                details = "API URL is missmatch/ query param failure"
+                details = "API URL is missmatch/ query param failed"
                 return helper.response_json('failed', {}, details, 500)
             resp = api_resp.json()
             if resp['success'] is False:
-                details = "Bittrex data fetching failure - Exception occurred " + resp['message']
+                details = "Bittrex data fetching failed - Exception occurred " + resp['message']
                 return helper.response_json('failed', {}, details, 500)
             return resp
         except Exception as e:

@@ -1,5 +1,5 @@
 from app.CommonLib import helper
-from app.CommonLib.security_helper import encode_auth_token
+from app.CommonLib.security_helper import TokenOperations
 
 import json
 import connexion
@@ -21,11 +21,11 @@ def login():
             password = body.get('password')
 
         if username in (None, ''):
-            details = "Login is failure - Missing username"
+            details = "Login is failed - Missing username"
             return helper.response_json('failed', {}, details, 400), 400
 
         if password in (None, ''):
-            details = "Login is failure - Missing password"
+            details = "Login is failed - Missing password"
             return helper.response_json('failed', {}, details, 400), 400
 
         # read json
@@ -40,13 +40,13 @@ def login():
             return helper.response_json('failed', {}, details, 500), 500
 
         # generate token
-        token = encode_auth_token(username)
+        token = TokenOperations.encode_auth_token(username)
         if token['status'] is False:
-            details = "Token generate failure"
+            details = "Token generate failed"
             return helper.response_json('failed', {}, details, 500), 500
         token = {"auth_token": token['result']}
 
         return helper.response_json('success', token, "logged in successfully", 200)
     except Exception as e:
-        details = "Login is failure - Exception occurred " + str(e)
+        details = "Login is failed - Exception occurred " + str(e)
         return helper.response_json('failed', {}, details, 500), 500

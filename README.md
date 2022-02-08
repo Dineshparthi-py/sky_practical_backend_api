@@ -21,7 +21,7 @@ Application Run:
 
 * Docker Build
 
-    `NAME=sky_dev_api PORT=7005 docker-compose build -d`
+    `NAME=sky_dev_api PORT=7005 docker-compose build`
 * Docker Up
 
     `NAME=sky_dev_api PORT=7005 docker-compose up -d`

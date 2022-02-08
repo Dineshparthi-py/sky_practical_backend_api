@@ -14,39 +14,37 @@ from flask import request
 from functools import wraps
 
 
-def encode_auth_token(username):
-    """
-    Method to encode jwt token
-    """
-    try:
-        payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=AUTH_TOKEN_EXPIRY_SECONDS),
-            'username': username}
-        encoded_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        return {"status": True, "result": encoded_token}
-    except Exception as e:
-        return {"status": False}
+class TokenOperations:
 
-
-def decode_token(auth_token=None):
-    """
-    Method to decode jwt token
-    """
-    try:
-        if auth_token:
-            usr_data = jwt.decode(auth_token, SECRET_KEY, algorithms='HS256')
-            return {"status": True, "result": usr_data}
-        else:
+    @staticmethod
+    def encode_auth_token(username):
+        """
+        Method to encode jwt token
+        """
+        try:
+            payload = {
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=AUTH_TOKEN_EXPIRY_SECONDS),
+                'username': username}
+            encoded_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+            return {"status": True, "result": encoded_token}
+        except Exception:
             return {"status": False}
-    except Exception as e:
-        return {"status": False}
 
+    @staticmethod
+    def decode_token(auth_token=None):
+        """
+        Method to decode jwt token
+        """
+        try:
+            if auth_token:
+                usr_data = jwt.decode(auth_token, SECRET_KEY, algorithms='HS256')
+                return {"status": True, "result": usr_data}
+            else:
+                return {"status": False}
+        except jwt.DecodeError:
+            return {"status": False}
 
-def token_required():
-    """
-    Method to check token in routes
-    """
-    def decorator(f):
+    def token_required(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
             try:
@@ -73,7 +71,7 @@ def token_required():
                 return helper.response_json('failed', {}, detail, 500), 500
             return f(*args, **kwargs)
         return wrapper
-    return decorator
+
 
 
 
