@@ -4,12 +4,10 @@
 
 * Used to get the last 24 hour market summary
 
-API Running Tool: 
-* Swagger UI
-
 Framework:
 * Flask 1.1.4
 * OpenAPI 3 (OAS3)
+* Swagger UI
 
 Security
 * Bearer Authentication (HTTP bearer)
