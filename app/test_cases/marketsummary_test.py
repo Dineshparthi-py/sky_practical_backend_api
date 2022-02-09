@@ -58,7 +58,7 @@ def test_market_summary_without_authtoken(client):
     assert out_result['detail'] == "No authorization token provided", market_resp.text
 
 
-@pytest.mark.parametrize("token", [("Bearer qsfsadfsdafe454gsdfgr5tyrgfsaewa34243"), ("vdsfgsdwe35refdffdfgh45t343r")])
+@pytest.mark.parametrize("token", [("Bearer qsfsadfsdafe454gsdfgr5tyrgfsaewa34243")])
 def test_market_summary_invalid_token(client, token):
     # urls
     summaries_url = "/api/v1/marketsummary?market=btc-ltc"
@@ -69,4 +69,4 @@ def test_market_summary_invalid_token(client, token):
 
     # market summaries api validate
     assert market_resp.status_code == 401, market_resp.text
-    assert out_result['detail'] == "Invalid authorization header", market_resp.text
+    assert out_result['detail'] == "Access token invalid", market_resp.text

@@ -54,5 +54,5 @@ def test_login_incorrect(client, username, password):
     # server error
     assert resp.status_code == 500, resp.text
     # username/password check
-    assert out_result['detail'] == "Username/Password Incorrect", resp.text
+    assert out_result['detail'] == "Incorrect username/password", resp.text
 
