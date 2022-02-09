@@ -46,7 +46,7 @@ def login():
             return helper.response_json('failed', {}, details, 500), 500
         token = {"auth_token": token['result']}
 
-        return helper.response_json('success', token, "logged in successfully", 200)
+        return helper.response_json('success', token, "logged in successfully", 200), 200
     except Exception as e:
         details = "Login is failed - Exception occurred " + str(e)
         return helper.response_json('failed', {}, details, 500), 500

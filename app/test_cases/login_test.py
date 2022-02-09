@@ -1,17 +1,16 @@
 from app.CommonLib.security_helper import TokenOperations
 
 import pytest
-import requests
 
 
 @pytest.mark.parametrize("username, password", [("admin_001", "admin_001@12345"), ("manager_001", "manager_001@12345")])
-def test_login_valid(market_url, username, password):
+def test_login_valid(client, username, password):
     # urls
-    url = market_url + "/login"
+    url = "/api/v1/login"
 
     data = {'username': username, 'password': password}
-    resp = requests.post(url, json=data)
-    out_result = resp.json()
+    resp = client.post(url, json=data)
+    out_result = resp.json
     auth_username = TokenOperations.decode_token(out_result['result']['auth_token'])['result']['username']
 
     # api response
@@ -21,41 +20,39 @@ def test_login_valid(market_url, username, password):
 
 
 @pytest.mark.parametrize("username", [("admin_001"), ("manager_001")])
-def test_login_no_password(market_url, username):
+def test_login_no_password(client, username):
     # urls
-    url = market_url + "/login"
+    url = "/api/v1/login"
 
     data = {'username': username}
-    resp = requests.post(url, json=data)
+    resp = client.post(url, json=data)
 
     # chech password validation
     assert resp.status_code == 400, resp.text
 
 
-def test_login_no_username(market_url):
+def test_login_no_username(client):
     # urls
-    url = market_url + "/login"
+    url = "/api/v1/login"
 
     data = {}
-    resp = requests.post(url, json=data)
+    resp = client.post(url, json=data)
 
     # check username validation
     assert resp.status_code == 400, resp.text
 
 
 @pytest.mark.parametrize("username, password", [("admin_00", "admin_001@12345"), ("manager_001", "manager_00@12345")])
-def test_login_incorrect(market_url, username, password):
+def test_login_incorrect(client, username, password):
     # urls
-    url = market_url + "/login"
+    url = "/api/v1/login"
 
     data = {'username': username, 'password': password}
-    resp = requests.post(url, json=data)
-    out_result = resp.json()
+    resp = client.post(url, json=data)
+    out_result = resp.json
 
     # server error
     assert resp.status_code == 500, resp.text
     # username/password check
     assert out_result['detail'] == "Username/Password Incorrect", resp.text
-
-
 
