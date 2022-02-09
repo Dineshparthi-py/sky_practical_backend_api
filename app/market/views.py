@@ -19,7 +19,7 @@ def get_all_market_summaries():
         return helper.response_json('success', {"items": resp['result']}, "fetched all market summaries successfully",
                                     200), 200
     except Exception as e:
-        details = "All market summaries api unable to read data - Exception occurred " + str(e)
+        details = "Market summaries api unable to read data - Exception occurred " + str(e)
         return helper.response_json('failed', {}, details, 500), 500
 
 
@@ -40,5 +40,5 @@ def get_market_summary(market):
         return helper.response_json('success', {"items": resp['result']}, "fetched market summary successfully",
                                     200), 200
     except Exception as e:
-        details = "All market summaries api unable to read data - Exception occurred " + str(e)
-        return helper.response_json('failed', {}, details, 500)
+        details = "Market summary api unable to read data - Exception occurred " + str(e)
+        return helper.response_json('failed', {}, details, 500), 500

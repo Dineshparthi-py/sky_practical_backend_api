@@ -40,7 +40,6 @@ paths:
                     status_code: 200
                     result:
                       auth_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDQzOTY2MDcsInVzZXJuYW1lIjohFbFnvgKHY
-
         '400':
           description: Bad Request
           content:

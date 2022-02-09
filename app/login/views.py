@@ -36,17 +36,17 @@ def login():
 
         # check authenticate
         if not check_login:
-            details = "Username/Password Incorrect"
+            details = "Incorrect username/password"
             return helper.response_json('failed', {}, details, 500), 500
 
         # generate token
         token = TokenOperations.encode_auth_token(username)
         if token['status'] is False:
-            details = "Token generate failed"
+            details = "Access token failed"
             return helper.response_json('failed', {}, details, 500), 500
         token = {"auth_token": token['result']}
 
         return helper.response_json('success', token, "logged in successfully", 200), 200
     except Exception as e:
-        details = "Login is failed - Exception occurred " + str(e)
+        details = "Login failed - Exception occurred " + str(e)
         return helper.response_json('failed', {}, details, 500), 500

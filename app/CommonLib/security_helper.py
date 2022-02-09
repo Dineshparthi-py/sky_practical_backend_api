@@ -27,7 +27,7 @@ class TokenOperations:
                 'username': username}
             encoded_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
             return {"status": True, "result": encoded_token}
-        except Exception:
+        except jwt.PyJWTError:
             return {"status": False}
 
     @staticmethod
@@ -54,17 +54,17 @@ class TokenOperations:
                 detail = "Unable to fetch access token : Exception occurred -" + str(e)
                 return helper.response_json('failed', {}, detail, 500), 500
             if not token:
-                detail = "Token is missing"
+                detail = "Access token is missing"
                 return helper.response_json('failed', {}, detail, 500), 500
             # Decode token
             try:
                 result = jwt.decode(token, SECRET_KEY, algorithms='HS256')
-                username = result["username"]
+                is_valid_token = True if result["username"] else False
             except jwt.ExpiredSignatureError:
                 detail = "Token expired, Please sign in again"
                 return helper.response_json('failed', {}, detail, 401), 401
             except jwt.InvalidTokenError:
-                detail = "Invalid authorization header"
+                detail = "Access token invalid"
                 return helper.response_json('failed', {}, detail, 401), 401
             except Exception as e:
                 detail = "Access token error : Exception occurred -" + str(e)
