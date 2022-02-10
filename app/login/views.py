@@ -1,3 +1,9 @@
+"""
+ * File Name: views.py
+ * Description: Used to login application and generate auth token help of JWT
+ * Author: Dineshkumar Dhayalan
+ * Author Email: dineshkumar.dhayalan@ltts.com
+"""
 from app.CommonLib import helper
 from app.CommonLib.security_helper import TokenOperations
 
@@ -7,11 +13,11 @@ import connexion
 
 def login():
     """
-    this file helps to check username and password to login and generate auth token.
+    This file helps to check username and password to login and generate auth token.
     Note: here using json file to stored login details, so this login function will not check any dbs.
-    :param username:
-    :param password:
-    :return:
+    :param username: unique identification from user details
+    :param password: passcode from user details
+    :return: Api response object (json)
     """
     try:
         username, password = None, None
@@ -22,11 +28,11 @@ def login():
 
         if username in (None, ''):
             details = "Login is failed - Missing username"
-            return helper.response_json('failed', {}, details, 400), 400
+            return helper.response('failed', {}, details, 400)
 
         if password in (None, ''):
             details = "Login is failed - Missing password"
-            return helper.response_json('failed', {}, details, 400), 400
+            return helper.response('failed', {}, details, 400)
 
         # read json
         json_file = open("app/login/sample_login_credentials.json", 'r')
@@ -37,16 +43,16 @@ def login():
         # check authenticate
         if not check_login:
             details = "Incorrect username/password"
-            return helper.response_json('failed', {}, details, 500), 500
+            return helper.response('failed', {}, details, 500)
 
         # generate token
         token = TokenOperations.encode_auth_token(username)
         if token['status'] is False:
             details = "Access token failed"
-            return helper.response_json('failed', {}, details, 500), 500
+            return helper.response('failed', {}, details, 500)
         token = {"auth_token": token['result']}
 
-        return helper.response_json('success', token, "logged in successfully", 200), 200
+        return helper.response('success', token, "logged in successfully", 200)
     except Exception as e:
         details = "Login failed - Exception occurred " + str(e)
-        return helper.response_json('failed', {}, details, 500), 500
+        return helper.response('failed', {}, details, 500)

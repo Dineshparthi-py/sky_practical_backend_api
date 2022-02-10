@@ -1,6 +1,6 @@
 """
  * File Name: security_helper.py
- * Description: This file helps to handle http bearer(token auth)
+ * Description: This file helps to handle http bearer(token auth) and validate token (decorator function)
  * Author: Dineshkumar Dhayalan
  * Author Email: dineshkumar.dhayalan@ltts.com
 """
@@ -20,6 +20,8 @@ class TokenOperations:
     def encode_auth_token(username):
         """
         Method to encode jwt token
+        :param username: unique value
+        :return: status of result (bool) and encode token
         """
         try:
             payload = {
@@ -34,6 +36,8 @@ class TokenOperations:
     def decode_token(auth_token=None):
         """
         Method to decode jwt token
+        :param auth_token:
+        :return: status of result (bool) and decoded user data
         """
         try:
             if auth_token:
@@ -45,6 +49,11 @@ class TokenOperations:
             return {"status": False}
 
     def token_required(f):
+        """
+        Token validation and decode token
+        This will authenticate to API
+        :return:
+        """
         @wraps(f)
         def wrapper(*args, **kwargs):
             try:
@@ -52,23 +61,23 @@ class TokenOperations:
                 token = token_header.split(" ", 1)[1]
             except Exception as e:
                 detail = "Unable to fetch access token : Exception occurred -" + str(e)
-                return helper.response_json('failed', {}, detail, 500), 500
+                return helper.response('failed', {}, detail, 500)
             if not token:
                 detail = "Access token is missing"
-                return helper.response_json('failed', {}, detail, 500), 500
+                return helper.response('failed', {}, detail, 500)
             # Decode token
             try:
                 result = jwt.decode(token, SECRET_KEY, algorithms='HS256')
                 is_valid_token = True if result["username"] else False
             except jwt.ExpiredSignatureError:
                 detail = "Token expired, Please sign in again"
-                return helper.response_json('failed', {}, detail, 401), 401
+                return helper.response('failed', {}, detail, 401)
             except jwt.InvalidTokenError:
                 detail = "Access token invalid"
-                return helper.response_json('failed', {}, detail, 401), 401
+                return helper.response('failed', {}, detail, 401)
             except Exception as e:
                 detail = "Access token error : Exception occurred -" + str(e)
-                return helper.response_json('failed', {}, detail, 500), 500
+                return helper.response('failed', {}, detail, 500)
             return f(*args, **kwargs)
         return wrapper
 
